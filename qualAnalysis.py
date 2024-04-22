@@ -23,12 +23,12 @@ def get_sentiment_score(article):
         return 0
 
 @lru_cache(maxsize=128)
-def get_news_articles(symbol, news_sources, news_api_key):
+def get_news_articles(symbol, news_sources):
     """
     Function to get news articles related to a given symbol from News API.
     """
     try:
-        url = f'https://newsapi.org/v2/everything?q={symbol}&sources={news_sources}&apiKey={news_api_key}'
+        url = f'https://newsapi.org/v2/everything?q={symbol}&sources={news_sources}'
         response = requests.get(url)
         data = response.json()
         if 'articles' in data:
@@ -41,12 +41,12 @@ def get_news_articles(symbol, news_sources, news_api_key):
         return []
 
 @lru_cache(maxsize=128)
-def get_analyst_recommendations(symbol, api_key):
+def get_analyst_recommendations(symbol):
     """
     Function to get analyst recommendations for a given symbol from Alpha Vantage.
     """
     try:
-        url = f'https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey={api_key}'
+        url = f'https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}'
         response = requests.get(url)
         data = response.json()
         if 'AnalystRating' in data:
@@ -57,18 +57,18 @@ def get_analyst_recommendations(symbol, api_key):
         logger.error("Error getting analyst recommendations: %s", str(e))
         return 0
 
-def get_financial_sentiment(symbol, news_sources, news_api_key, api_key):
+def get_financial_sentiment(symbol, news_sources):
     """
     Function to compute the overall strength value based on sentiment analysis of news articles and analyst recommendations.
     """
     try:
-        articles = get_news_articles(symbol, news_sources, news_api_key)
+        articles = get_news_articles(symbol, news_sources)
         if not articles:
             logger.warning("No news articles found for symbol %s", symbol)
             return 0
 
         total_sentiment_score = sum(get_sentiment_score(article) for article in articles) / len(articles)
-        analyst_recommendations = get_analyst_recommendations(symbol, api_key)
+        analyst_recommendations = get_analyst_recommendations(symbol)
         overall_strength = total_sentiment_score + analyst_recommendations
         return overall_strength
     except Exception as e:
@@ -80,11 +80,9 @@ if __name__ == "__main__":
         # Configuration
         company = 'AAPL'  # Specify the company symbol
         news_sources = 'bbc-news, bloomberg, cnn, reuters'  # Specify news sources
-        news_api_key = 'YOUR_NEWS_API_KEY'
-        api_key = 'YOUR_ALPHA_VANTAGE_API_KEY'
 
         # Get overall strength
-        strength = get_financial_sentiment(company, news_sources, news_api_key, api_key)
+        strength = get_financial_sentiment(company, news_sources)
         print("Overall Strength:", strength)
     except Exception as e:
         logger.error("Error in main: %s", str(e))
