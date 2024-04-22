@@ -3,7 +3,7 @@ from scipy.stats import norm
 from math import log, sqrt, exp
 
 # Function to fetch real-time stock price from Alpha Vantage API
-def get_stock_price(symbol, api_key):
+def get_stock_price(symbol):
     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     r = 0.05            # Risk-free interest rate
     sigma = 0.2         # Volatility
     T = 1               # Time to expiration (in years)
-    api_key = "YOUR_API_KEY"  # Your Alpha Vantage API key
 
-    S = get_stock_price(symbol, api_key)
+
+    S = get_stock_price(symbol)
    
