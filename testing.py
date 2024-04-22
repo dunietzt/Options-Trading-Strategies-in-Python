@@ -34,17 +34,15 @@ class TestLiveness(unittest.TestCase):
     def test_get_stock_price(self):
         # Test case for liveness of get_stock_price function
         symbol = "AAPL"  # Stock symbol
-        api_key = "YOUR_API_KEY"  # Your Alpha Vantage API key
-        stock_price = get_stock_price(symbol, api_key)
+
+        stock_price = get_stock_price(symbol)
         self.assertIsNotNone(stock_price)
 
     def test_get_financial_sentiment(self):
         # Test case for liveness of get_financial_sentiment function
         company = 'AAPL'  # Specify the company symbol
         news_sources = 'bbc-news, bloomberg, cnn, reuters'  # Specify news sources
-        news_api_key = 'YOUR_NEWS_API_KEY'
-        api_key = 'YOUR_ALPHA_VANTAGE_API_KEY'
-        overall_strength = get_financial_sentiment(company, news_sources, news_api_key, api_key)
+        overall_strength = get_financial_sentiment(company, news_sources)
         self.assertIsNotNone(overall_strength)
 
 if __name__ == '__main__':
@@ -85,17 +83,16 @@ class TestLiveness(unittest.TestCase):
     def test_get_stock_price(self):
         # Test case for liveness of get_stock_price function
         symbol = "AAPL"  # Stock symbol
-        api_key = "YOUR_API_KEY"  # Your Alpha Vantage API key
-        stock_price = get_stock_price(symbol, api_key)
+
+        stock_price = get_stock_price(symbol)
         self.assertIsNotNone(stock_price)
 
     def test_get_financial_sentiment(self):
         # Test case for liveness of get_financial_sentiment function
         company = 'AAPL'  # Specify the company symbol
         news_sources = 'bbc-news, bloomberg, cnn, reuters'  # Specify news sources
-        news_api_key = 'YOUR_NEWS_API_KEY'
-        api_key = 'YOUR_ALPHA_VANTAGE_API_KEY'
-        overall_strength = get_financial_sentiment(company, news_sources, news_api_key, api_key)
+
+        overall_strength = get_financial_sentiment(company, news_sources)
         self.assertIsNotNone(overall_strength)
 
 if __name__ == '__main__':
